@@ -1,5 +1,19 @@
-### test index page
+### test static html file
+GET http://localhost:8080/test.html
+Accept-Encoding: gzip
+Range: bytes=0-100
+
+### test static file
 GET http://localhost:8080/Cargo.toml
 
-### test not existing file
+### test static not existing file
 GET http://localhost:8080/abc.txt
+
+### test static file with tower-http
+GET http://localhost:8080/tower/Cargo.toml
+
+### test static file with tower-http sub directory
+GET http://localhost:8080/tower/
+
+### test static file with tower-http not existing file
+GET http://localhost:8080/tower/abc.txt
