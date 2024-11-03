@@ -1,7 +1,6 @@
+use crate::CmdExecutor;
 use clap::Parser;
 use zxcvbn::zxcvbn;
-
-use crate::CmdExector;
 
 #[derive(Debug, Parser)]
 pub struct GenPassOpts {
@@ -17,7 +16,7 @@ pub struct GenPassOpts {
     pub symbols: bool,
 }
 
-impl CmdExector for GenPassOpts {
+impl CmdExecutor for GenPassOpts {
     async fn execute(self) -> anyhow::Result<()> {
         let ret = crate::process_genpass(
             self.length,

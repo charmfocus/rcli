@@ -1,10 +1,7 @@
-use std::{fmt, str::FromStr};
-
-use clap::Parser;
-
-use crate::CmdExector;
-
 use super::verify_file;
+use crate::CmdExecutor;
+use clap::Parser;
+use std::{fmt, str::FromStr};
 
 #[derive(Debug, Copy, Clone)]
 pub enum OutputFormat {
@@ -28,7 +25,7 @@ pub struct CsvOpts {
     pub header: bool,
 }
 
-impl CmdExector for CsvOpts {
+impl CmdExecutor for CsvOpts {
     async fn execute(self) -> anyhow::Result<()> {
         let output = if let Some(output) = self.output {
             output
