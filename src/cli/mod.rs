@@ -9,6 +9,8 @@ use clap::Parser;
 use csv_opts::CsvOpts;
 use genpass_opts::GenPassOpts;
 
+use crate::CmdExector;
+
 pub use self::{
     base64_opts::Base64Format, base64_opts::Base64SubCommand, csv_opts::OutputFormat,
     http::HttpSubCommand,
@@ -27,10 +29,21 @@ pub enum SubCommand {
     Csv(CsvOpts),
     #[command(name = "genpass", about = "Generate a random password")]
     GenPass(GenPassOpts),
-    #[command(subcommand)]
+    #[command(subcommand, about = "Base64 encode or decode")]
     Base64(Base64SubCommand),
-    #[command(subcommand)]
+    #[command(subcommand, about = "HTTP server")]
     Http(HttpSubCommand),
+}
+
+impl CmdExector for SubCommand {
+    async fn execute(self) -> anyhow::Result<()> {
+        match self {
+            SubCommand::Csv(opts) => opts.execute().await,
+            SubCommand::GenPass(opts) => opts.execute().await,
+            SubCommand::Base64(opts) => opts.execute().await,
+            SubCommand::Http(opts) => opts.execute().await,
+        }
+    }
 }
 
 fn verify_path(path: &str) -> Result<PathBuf, &'static str> {
